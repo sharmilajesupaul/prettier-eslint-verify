@@ -1,0 +1,25 @@
+{
+  "name": "@sharmilajesupaul/prettier-eslint-verify",
+  "version": "1.0.0",
+  "description": "A simple tool that verifies if files have been formatted using prettier-eslint.",
+  "main": "bin/index.js",
+  "bin": {
+    "prettier-eslint-verify": "bin/index.js"
+  },
+  "keywords": [
+    "prettier",
+    "eslint"
+  ],
+  "author": "Sharmila Jesupaul",
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^2.3.0",
+    "command-line-args": "^5.0.1",
+    "glob": "^7.1.2",
+    "prettier-eslint-cli": "^4.7.0"
+  },
+  "peerDependencies": {
+    "prettier-eslint": "^8.8.1"
+  },
+  "devDependencies": {}
+}
