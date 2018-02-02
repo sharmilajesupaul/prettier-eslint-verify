@@ -1,6 +1,6 @@
 {
   "name": "prettier-eslint-verify",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "A simple tool that verifies if files have been formatted using prettier-eslint.",
   "main": "bin/index.js",
   "bin": {

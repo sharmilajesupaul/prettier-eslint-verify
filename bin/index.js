@@ -16,7 +16,7 @@ if (!options.src) {
   process.exit(1);
 }
 
-const command = `prettier-eslint --list-different ${options._unknown.join(' ')} ${options.src
+const command = `prettier-eslint --list-different ${options._unknown ? options._unknown.join(' ') : ''} ${options.src
   .map(arg => `'${arg.split(' ')}'`)
   .join(' ')}`;
 
