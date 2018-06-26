@@ -16,12 +16,9 @@ if (!options.src) {
   process.exit(1);
 }
 
-const command = `prettier-eslint --list-different ${options._unknown ? options._unknown.join(' ') : ''} ${options.src
-  .map(arg => `'${arg.split(' ')}'`)
-  .join(' ')}`;
-
-console.log(`Running: ${command}`);
-console.log('');
+const command = `prettier-eslint --list-different ${
+  options._unknown ? options._unknown.join(' ') : ''
+} ${options.src.map(arg => `'${arg.split(' ')}'`).join(' ')}`;
 
 exec(command, (err, stdout, stderr) => {
   const filePaths = stdout
@@ -30,7 +27,9 @@ exec(command, (err, stdout, stderr) => {
     .filter(file => file !== '' || file.startsWith === '>');
 
   if (filePaths.length > 0) {
-    console.log(error(`❌ Found diffs in ${filePaths.length} file${filePaths.length === 1 ? '' : 's'}:`));
+    console.log(
+      error(`❌ Found diffs in ${filePaths.length} file${filePaths.length === 1 ? '' : 's'}:`)
+    );
     console.log(warning('Please run `prettier-eslint` on the files listed below.'));
     console.log('');
     filePaths.forEach(file => {
@@ -46,7 +45,8 @@ exec(command, (err, stdout, stderr) => {
   if (
     stderr &&
     (stderr.includes('files were unchanged') || stderr.includes('file was unchanged'))
-  ) {console.log(success('✅ did not find diffs in checked files.'));
+  ) {
+    console.log(success('✅ did not find diffs in checked files.'));
     return;
   }
 
