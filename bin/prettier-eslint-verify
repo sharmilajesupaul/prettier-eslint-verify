@@ -16,9 +16,15 @@ if (!options.src) {
   process.exit(1);
 }
 
-const command = `prettier-eslint --list-different ${
-  options._unknown ? options._unknown.join(' ') : ''
-} ${options.src.map(arg => `'${arg.split(' ')}'`).join(' ')}`;
+const formattedOptions = options.src.map(arg => `'${arg.split(' ')}'`).join(' ');
+
+function createCommand() {
+  return `npx prettier-eslint --list-different ${
+    options._unknown ? options._unknown.join(' ') : ''
+  } ${formattedOptions}`;
+}
+
+const command = createCommand();
 
 exec(command, (err, stdout, stderr) => {
   const filePaths = stdout
@@ -26,19 +32,22 @@ exec(command, (err, stdout, stderr) => {
     .split('\n')
     .filter(file => file !== '' || file.startsWith === '>');
 
+  let info = '';
+
   if (filePaths.length > 0) {
-    console.log(
-      error(`❌ Found diffs in ${filePaths.length} file${filePaths.length === 1 ? '' : 's'}:`)
-    );
-    console.log(warning('Please run `prettier-eslint` on the files listed below.'));
-    console.log('');
-    filePaths.forEach(file => {
-      console.log(chalk.bold(`- ${file}`));
-    });
-    console.log('');
-    console.log('---');
-    console.log('');
-    throw new Error('Found diffs in listed files.');
+    const stderrLines = stderr.split('\n');
+    if (stderrLines.length > 1 && stderrLines[0].includes('success')) {
+      const numberChanged = stderrLines[0].match(/\d+/)[0];
+      const numberUnChanged = stderrLines[1].match(/\d+/)[0];
+      info = `${numberChanged}/${parseInt(numberUnChanged) + parseInt(numberChanged)} files need to be updated`;
+    }
+
+    throw new Error(`
+      ${error('Found prettier eslint diffs:')}
+      ${warning(info)}
+
+      Please run \`npx prettier-eslint --write ${formattedOptions}\` to fix this error.
+    `);
     return;
   }
 
