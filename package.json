@@ -4,7 +4,7 @@
   "description": "A simple tool that verifies if files have been formatted using prettier-eslint.",
   "main": "bin/index.js",
   "bin": {
-    "prettier-eslint-verify": "bin/index.js"
+    "prettier-eslint-verify": "bin/prettier-eslint-verify"
   },
   "keywords": [
     "prettier",
